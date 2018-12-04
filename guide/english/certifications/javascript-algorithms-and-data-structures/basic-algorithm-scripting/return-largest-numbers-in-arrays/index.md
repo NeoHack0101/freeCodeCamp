@@ -100,46 +100,23 @@ Pay close attention to the timing of the storing of variables when working with 
 **(Declarative approach)**
 
     function largestOfFour(arr) {
-      return arr.map(Function.apply.bind(Math.max, null));
+      return arr.map(sb => Math.max(...sb));
     }
 
 ![:rocket:](https://forum.freecodecamp.com/images/emoji/emoji_one/rocket.png?v=3 ":rocket:") <a href='https://repl.it/CLjU/17' target='_blank' rel='nofollow'>Run Code</a>
 
 ### Code Explanation:
 
-TL;DR: We build a special callback function (using the `Function.bind` method), that works just like `Math.max` but also has `Function.prototype.apply`'s ability to take arrays as its arguments ![:smiley:](https://forum.freecodecamp.com/images/emoji/emoji_one/smiley.png?v=3 ":smiley:")
+*   We map all items within the main array to a new array using `Array.prototype.map()` and return this array as the final result
+*   Then we spread `...` each subarray into `Math.max()` function as arguments. 
+*   `Math.max()` function returns back the highest number which will be added into our final array. 
 
-*   We start by mapping through the elements inside the main array. Meaning each one of the inner arrays.
-*   Now the need a callback function to find the max of each inner array provided by the map.
-
-So we want to create a function that does the work of `Math.max` and accepts input as an array (which by it doesn't by default).
-
-In other words, it would be really nice and simple if this worked by itself:
-
-`Math.max([9, 43, 20, 6]); // Resulting in 43`
-
-Alas, it doesn't.
-
-*   To do the work of accepting arguments in the shape of an array, there is this `Function.prototype.apply` method, but it complicates things a bit by _invoking_ the _context_ function.  
-
-i.e. `Math.max.apply(null, [9, 43, 20, 6]);` would invoke something like a `Max.max` method. What we're looking for... almost.
-
-Here we're passing `null` as the _context_ of the `Function.prototype.apply` method as `Math.max` doesn't need any context.
-
-*   Since `arr.map` expects a callback function, not just an expression, we create a function out of the previous expression by using the `Function.bind` method.
-*   Since, `Function.prototype.apply` is a static _method_ of the same `Function` _object_, we can call `Function.prototype.bind` on `Function.prototype.apply` i.e. `Function.prototype.apply.bind`.
-*   Now we pass the _context_ for the `Function.prototype.apply.bind` call (in this case we want `Math.max`so we can gain its functionality).
-*   Since the embedded `Function.prototype.apply` method will also require a context as it's 1st argument, we need to pass it a bogus _context_.
-    *   So, we pass `null` as the 2nd param to `Function.prototype.apply.bind` which gives a _context_ to the `Math.max` method.
-
-    *   Since, `Math.max` is independent of any _context_, hence, it ignores the bogus _context_ given by `Function.prototype.apply` method call.
-    *   Thus, our `Function.prototype.apply.bind(Math.max, null)` makes a new function accepting the `arr.map` values i.e. the inner arrays.
 
 #### Relevant Links
 
-*   <a href ='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/max' target='_blank' rel='nofollow'> Math.max</a>
-*   <a href='http://devdocs.io/#q=js+Function+apply' target='_blank' rel='nofollow'>Function.prototype.apply on DevDocs</a>
-*   <a href='http://devdocs.io/#q=js+Function+bind' target='_blank' rel='nofollow'>Function.bind on DevDocs</a>
+*   <a href ='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/max' target='_blank' rel='nofollow'> Math.max()</a>
+*   <a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map' target='_blank' rel='nofollow'>Array.prototype.map()</a>
+*   <a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax' target='_blank' rel='nofollow'>Spread syntax `...`</a>
 
 ## ![:clipboard:](https://forum.freecodecamp.com/images/emoji/emoji_one/clipboard.png?v=3 ":clipboard:") NOTES FOR CONTRIBUTIONS:
 
